@@ -1,0 +1,17 @@
+import hashlib
+import os
+
+def hash_file(filepath):
+    hasher = hashlib.sha256()
+    with open(filepath, 'rb') as f:
+        while chunk := f.read(8192):
+            hasher.update(chunk)
+    return hasher.hexdigest()
+
+for root, dirs, files in os.walk('/path/to/evidence'):
+    for file in files:
+        print(f"{file}: {hash_file(os.path.join(root, file))}")
+#Containerization: Package tools in Docker for portability. Example Dockerfile for a forensic container:
+  FROM ubuntu:latest
+RUN apt-get update && apt-get install -y sleuthkit volatility autopsy
+CMD ["/bin/bash"]
